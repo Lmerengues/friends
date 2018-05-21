@@ -33,14 +33,14 @@
       <div class="col-lg-8 col-md-8 col-sm-8 col-xs-10">
         <div id="main-right">
 
-          <div class="row">
+          <div class="row" id="head-row">
             <div class="panel panel-info">
               <div class="panel-heading">
-                <a id="btn-deletecourse" class="accordion-toggle title" data-toggle="collapse" onclick="javascript:add2(); return false;" href="#">+</a>
+                <a id="btn-deletecourse" class="accordion-toggle title" data-toggle="collapse" onclick="javascript:add2(); return false;" href="#">+ 把自己挂上去吧~</a>
               </div>
             </div>
           </div>
-          <div class="row">
+          <!--div class="row">
             <div class="panel panel-default">
               <div class="panel-body">
                 <a onclick="javascript:add(); return false;" href="#" class="title" target="_blank">95币圈哥
@@ -54,39 +54,8 @@
                 </div>
               </div>
             </div>
-          </div>
+          </div-->
 
-          <div class="row">
-            <div class="panel panel-default">
-              <div class="panel-body">
-                <a onclick="javascript:add(); return false;" href="#" class="title" target="_blank">马正一
-                </a>
-                </br>
-                <div class="points">
-                  <span class="point_label label label-warning">帅 12</span>
-                  <span class="point_label label label-danger">英俊 11</span>
-                  <span class="point_label label label-info">聪明 5</span>
-                  <span class="point_label label label-success">丑 1</span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="row">
-            <div class="panel panel-default">
-              <div class="panel-body">
-                <a onclick="javascript:add();return false;" href="#" class="title" target="_blank">Max
-                </a>
-                </br>
-                <div class="points">
-                  <span class="point_label label label-warning">帅 12</span>
-                  <span class="point_label label label-danger">英俊 11</span>
-                  <span class="point_label label label-info">聪明 5</span>
-                  <span class="point_label label label-success">丑 1</span>
-                </div>
-              </div>
-            </div>
-          </div>
 
 
           <!--div class="row">
@@ -107,18 +76,18 @@
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true" id="btn-closemodal">&times;</button>
             <h4 class="modal-title">添加印象</h4>
           </div>
-          <form id="form-feedback" class="form">
+          <form id="form-feedbac" class="form">
             <div class="modal-body">
               <div class="form-group">
                 <input name="vccontent" class="form-control" placeholder="输入好友印象~" style="height:40px" id="fbcontent"></input>
                 <!--div class="errormessage" id="blankerror">请输入内容</div-->
               </div>
-              <div class="points">
+              <!--div class="points">
                 <span class="point_label label label-warning">帅 12</span>
                 <span class="point_label label label-danger">英俊 11</span>
                 <span class="point_label label label-info">聪明 5</span>
                 <span class="point_label label label-success">丑 1</span>
-              </div>
+              </div-->
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-primary" id="btn-commit-1">提交</button>
@@ -152,6 +121,7 @@
       </div>
 
   </div>
+  <input type="hidden" id="input_title"/>
   <script type="text/javascript" src="./dist/nebulas.js"></script>
   <script type="text/javascript" src="./dist/nebPay.js"></script>
   <script src="js/jquery-1.10.2.js"></script>
@@ -159,9 +129,9 @@
   <script>
     //$("#modal-feedback").hide();
     "use strict";
-    var dappContactAddress = "n1hTQsfFhxQQLzbUrKjPoUrfawemogVBTcE";
+    var dappContactAddress = "n1zvu4JjkFnQwEzDeW9byY4Bj4xT83VLCKj";
     var nebulas = require("nebulas"), Account = Account, neb = new nebulas.Neb();
-    neb.setRequest(new nebulas.HttpRequest("https://mainnet.nebulas.io"))
+    neb.setRequest(new nebulas.HttpRequest("https://Testnet.nebulas.io"))
 
 
     var NebPay = require("nebpay");     //https://github.com/nebulasio/nebPay
@@ -169,13 +139,89 @@
     var serialNumber
 
 
+    var from = dappContactAddress
+    var value = "0";
+    var nonce = "0"
+    var gas_price = "1000000"
+    var gas_limit = "2000000"
+    var callFunction = "forEach";
+    var callArgs = "[\"10\",\"0\"]";
+    console.log(callArgs);
+    var contract = {
+        "function": callFunction,
+        "args": callArgs
+    }
+    var result
+
+    /*
+    *
+    *
+    * <div class="row">
+            <div class="panel panel-default">
+              <div class="panel-body">
+                <a onclick="javascript:add(); return false;" href="#" class="title" target="_blank">马正一
+                </a>
+                </br>
+                <div class="points">
+                  <span class="point_label label label-warning">帅 12</span>
+                  <span class="point_label label label-danger">英俊 11</span>
+                  <span class="point_label label label-info">聪明 5</span>
+                  <span class="point_label label label-success">丑 1</span>
+                </div>
+              </div>
+            </div>
+          </div>
+    * */
+    neb.api.call(from, dappContactAddress, value, nonce, gas_price, gas_limit, contract).then(function (resp) {
+        result = JSON.parse(resp.result);
+        console.log(resp)
+        console.log(result)
+        var ht;
+        for(var i=0;i<result.length;i++) {
+            ht = "<div class=\"row\">\n" +
+                "            <div class=\"panel panel-default\">\n" +
+                "              <div class=\"panel-body\">\n" +
+                "                <a onclick=\"javascript:add(); return false;\" href=\"#\" class=\"title\" target=\"_blank\">" + result[i].title;
+            ht += "</a><a class=\"btn btn-danger btn-sm pull-right btn-comment\" title=\""+result[i].title+"\">评论</a>\n" +
+                "                </br>\n" +
+                "                <div class=\"points\">"
+            var l_ht = ""
+            for (var key in result[i].labels) {
+                console.log(key)
+                l_ht += "<span class=\"point_label label label-warning\">" + key + " " + result[i].labels[key].toString() + "</span>"
+                ht += l_ht + "</div></div></div></div>"
+            }
+            $("#head-row").after(ht)
+        }
 
 
-    function add() {
-      console.log("in")
-      $("#modal-feedback").modal({
+        $(".btn-comment").click(function(){
+            console.log($(this).attr("title"))
+
+            $("#modal-feedback").modal({
+                keyboard: true
+            });
+
+            $("#input_title").val($(this).attr("title"))
+        })
+
+    }).catch(function (err) {
+        console.log("error :" + err.message);
+    })
+
+
+
+
+
+
+
+    function add(str) {
+
+      console.log(str)
+      /*$("#modal-feedback").modal({
         keyboard: true
-      });
+      });*/
+      $("#input_title").val()
       return false;
     }
 
@@ -186,6 +232,32 @@
       });
       return false;
     }
+
+
+
+
+    $("#btn-commit-1").click(function(){
+        if (!$("#fbcontent").val()) {
+            alert('标题或者文本不能为空');
+            return;
+        }
+        var to = dappContactAddress;
+        var value = "0";
+        var callFunction = "comment";
+        var callArgs = "[\"" + $("#input_title").val() + "\",\"" + $("#fbcontent").val() + "\"]";
+        serialNumber = nebPay.call(to, value, callFunction, callArgs, {    //使用nebpay的call接口去调用合约,
+            listener: function (resp) {
+                console.log("thecallback is " + resp)
+                console.log(resp)
+                //window.location.reload()
+            }
+        });
+
+    })
+
+
+
+
 
     $("#btn-commit-2").click(function(){
       console.log("2")
@@ -199,11 +271,16 @@
         var callArgs = "[\"" + $("#ptitle").val() + "\"]";
         console.log(callArgs);
 
+
         serialNumber = nebPay.call(to, value, callFunction, callArgs, {    //使用nebpay的call接口去调用合约,
             listener: function (resp) {
                 console.log("thecallback is " + resp)
+                console.log(resp)
+                //window.location.reload()
+
             }
         });
+
     })
 
         
