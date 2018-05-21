@@ -1,0 +1,214 @@
+<!doctype html>
+<html>
+
+<head>
+  <title>作业</title>
+  <style type="text/css">
+    .EditCell_TextBox {
+      width: 90%;
+      border: 1px solid #0099CC;
+    }
+
+    .panel-my {
+      border-color: #3e6cb0;
+    }
+
+    .panel-my .panel-primary {
+      border-color: #3498dc;
+    }
+
+    .panel-my .panel-heading {
+      color: #fff;
+      background-color: #3e6cb0;
+      border-color: #3e6cb0;
+    }
+  </style>
+  <link href="css/bootstrap.css" rel="stylesheet">
+</head>
+
+<body>
+  <include file='App/Tpl/Common/header-teacher.html' />
+  <div id="main-container" class="container">
+    <div class="row">
+      <div class="col-lg-8 col-md-8 col-sm-8 col-xs-10">
+        <div id="main-right">
+
+          <div class="row">
+            <div class="panel panel-info">
+              <div class="panel-heading">
+                <a id="btn-deletecourse" class="accordion-toggle title" data-toggle="collapse" onclick="javascript:add2(); return false;" href="#">+</a>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="panel panel-default">
+              <div class="panel-body">
+                <a onclick="javascript:add(); return false;" href="#" class="title" target="_blank">95币圈哥
+                </a>
+                </br>
+                <div class="points">
+                  <span class="point_label label label-warning">帅 12</span>
+                  <span class="point_label label label-danger">英俊 11</span>
+                  <span class="point_label label label-info">聪明 5</span>
+                  <span class="point_label label label-success">丑 1</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="panel panel-default">
+              <div class="panel-body">
+                <a onclick="javascript:add(); return false;" href="#" class="title" target="_blank">马正一
+                </a>
+                </br>
+                <div class="points">
+                  <span class="point_label label label-warning">帅 12</span>
+                  <span class="point_label label label-danger">英俊 11</span>
+                  <span class="point_label label label-info">聪明 5</span>
+                  <span class="point_label label label-success">丑 1</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="panel panel-default">
+              <div class="panel-body">
+                <a onclick="javascript:add();return false;" href="#" class="title" target="_blank">Max
+                </a>
+                </br>
+                <div class="points">
+                  <span class="point_label label label-warning">帅 12</span>
+                  <span class="point_label label label-danger">英俊 11</span>
+                  <span class="point_label label label-info">聪明 5</span>
+                  <span class="point_label label label-success">丑 1</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+          <!--div class="row">
+                        <div class="panel panel-default">
+                            <div class="panel-body">还没有作业呢~~</div>
+                        </div>
+                    </div-->
+
+        </div>
+      </div>
+
+    </div>
+
+    <div class="modal fade" id="modal-feedback">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true" id="btn-closemodal">&times;</button>
+            <h4 class="modal-title">添加印象</h4>
+          </div>
+          <form id="form-feedback" class="form">
+            <div class="modal-body">
+              <div class="form-group">
+                <input name="vccontent" class="form-control" placeholder="输入好友印象~" style="height:40px" id="fbcontent"></input>
+                <!--div class="errormessage" id="blankerror">请输入内容</div-->
+              </div>
+              <div class="points">
+                <span class="point_label label label-warning">帅 12</span>
+                <span class="point_label label label-danger">英俊 11</span>
+                <span class="point_label label label-info">聪明 5</span>
+                <span class="point_label label label-success">丑 1</span>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-primary" id="btn-commit-1">提交</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade" id="modal-add">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-hidden="true" id="btn-closemodal">&times;</button>
+              <h4 class="modal-title">添加印象</h4>
+            </div>
+            <form id="form-feedback" class="form">
+              <div class="modal-body">
+                <div class="form-group">
+                  <input name="vccontent" class="form-control" placeholder="输入您的昵称以方便网友辨认哦~" style="height:40px" id="ptitle"></input>
+                  <!--div class="errormessage" id="blankerror">请输入内容</div-->
+                </div>
+                
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="btn-commit-2">提交</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+  </div>
+  <script type="text/javascript" src="./dist/nebulas.js"></script>
+  <script type="text/javascript" src="./dist/nebPay.js"></script>
+  <script src="js/jquery-1.10.2.js"></script>
+  <script src="js/bootstrap.min.js"></script>
+  <script>
+    //$("#modal-feedback").hide();
+    "use strict";
+    var dappContactAddress = "n1hTQsfFhxQQLzbUrKjPoUrfawemogVBTcE";
+    var nebulas = require("nebulas"), Account = Account, neb = new nebulas.Neb();
+    neb.setRequest(new nebulas.HttpRequest("https://mainnet.nebulas.io"))
+
+
+    var NebPay = require("nebpay");     //https://github.com/nebulasio/nebPay
+    var nebPay = new NebPay();
+    var serialNumber
+
+
+
+
+    function add() {
+      console.log("in")
+      $("#modal-feedback").modal({
+        keyboard: true
+      });
+      return false;
+    }
+
+    function add2() {
+      console.log("in")
+      $("#modal-add").modal({
+        keyboard: true
+      });
+      return false;
+    }
+
+    $("#btn-commit-2").click(function(){
+      console.log("2")
+      if (!$("#ptitle").val()) {
+            alert('标题或者文本不能为空');
+            return;
+        }
+        var to = dappContactAddress;
+        var value = "0";
+        var callFunction = "save";
+        var callArgs = "[\"" + $("#ptitle").val() + "\"]";
+        console.log(callArgs);
+
+        serialNumber = nebPay.call(to, value, callFunction, callArgs, {    //使用nebpay的call接口去调用合约,
+            listener: function (resp) {
+                console.log("thecallback is " + resp)
+            }
+        });
+    })
+
+        
+
+  </script>
+</body>
+
+</html>
